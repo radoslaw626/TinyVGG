@@ -14,6 +14,25 @@ def create_dataloaders(
   batch_size: int,
   num_workers: int=NUM_WORKERS
 ):
+
+  """
+  Creates DataLoader objects for training and testing datasets.
+
+  This function initializes DataLoader objects for both training and testing datasets using the ImageFolder class
+  from torchvision. It applies the specified transformations to the images and organizes them into batches.
+
+  Args:
+      train_dir (str): The directory path containing the training images organized in subdirectories per class.
+      test_dir (str): The directory path containing the testing images organized in subdirectories per class.
+      train_transform (transforms.Compose): A composition of transformations to apply to the training images.
+      test_transform (transforms.Compose): A composition of transformations to apply to the testing images.
+      batch_size (int): The number of images to process in each batch.
+      num_workers (int, optional): The number of subprocesses to use for data loading. Defaults to the number of CPUs available on the machine.
+
+  Returns:
+      tuple: A tuple containing the training DataLoader, testing DataLoader, and a list of class names derived from the training dataset.
+  """
+
   train_data = datasets.ImageFolder(root=train_dir,
                                   transform=train_transform,
                                   target_transform=None)

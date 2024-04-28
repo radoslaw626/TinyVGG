@@ -9,6 +9,23 @@ def train_step(model: torch.nn.Module,
                loss_fn: torch.nn.Module,
                optimizer: torch.optim.Optimizer,
                device: torch.device):
+  
+  """
+  Performs a single training step including forward pass, loss computation, 
+  backpropagation, and optimizer step.
+
+  Args:
+      model (torch.nn.Module): The neural network model to be trained.
+      dataloader (torch.utils.data.DataLoader): The DataLoader that provides batches of data for training.
+      loss_fn (torch.nn.Module): The loss function to measure the model's performance.
+      optimizer (torch.optim.Optimizer): The optimization algorithm to update the model's parameters.
+      device (torch.device): The device on which the model is being trained (e.g., 'cuda' or 'cpu').
+
+  Returns:
+      float: The average training loss for the epoch.
+      float: The average training accuracy for the epoch.
+  """
+
   model.train()
 
   train_loss, train_acc = 0, 0
@@ -37,6 +54,24 @@ def test_step(model: torch.nn.Module,
               dataloader: torch.utils.data.DataLoader,
               loss_fn: torch.nn.Module,
               device: torch.device):
+  
+  """
+  Performs a single evaluation step to calculate the loss and accuracy of the model on the test dataset.
+
+  This function sets the model to evaluation mode, disables gradient calculations, and iterates over the test
+  dataloader to compute the model's performance metrics.
+
+  Args:
+      model (torch.nn.Module): The neural network model to be evaluated.
+      dataloader (torch.utils.data.DataLoader): The DataLoader providing the test dataset.
+      loss_fn (torch.nn.Module): The loss function used to evaluate the model's performance.
+      device (torch.device): The device (CPU or GPU) on which the model is being evaluated.
+
+  Returns:
+      float: The average loss of the model on the test dataset.
+      float: The average accuracy of the model on the test dataset.
+  """
+
   model.eval()
   test_loss, test_acc = 0,  0
 
@@ -64,6 +99,31 @@ def train(model: torch.nn.Module,
           epochs: int,
           device: torch.device):
 
+  """
+  Trains and evaluates a neural network model using specified data loaders, optimizer, loss function, and device.
+
+  This function orchestrates the training and testing process of a PyTorch model for a given number of epochs.
+  It logs the training and testing loss and accuracy after each epoch and returns these metrics in a dictionary.
+
+  Args:
+      model (torch.nn.Module): The neural network model to be trained and evaluated.
+      train_dataloader (torch.utils.data.DataLoader): DataLoader for the training data.
+      test_dataloader (torch.utils.data.DataLoader): DataLoader for the testing data.
+      optimizer (torch.optim.Optimizer): Optimizer to use for training the model.
+      loss_fn (torch.nn.Module): Loss function to use for evaluating the model.
+      epochs (int): Number of epochs to train the model.
+      device (torch.device): Device on which to train the model (e.g., 'cuda' or 'cpu').
+
+  Returns:
+      dict: A dictionary containing lists of training losses, training accuracies, testing losses, and testing accuracies for each epoch.
+
+  The function performs the following steps for each epoch:
+  1. Calls `train_step` to train the model on the training data.
+  2. Calls `test_step` to evaluate the model on the testing data.
+  3. Logs the losses and accuracies.
+  4. Appends the results to the respective lists in the results dictionary.
+  """
+
   results = {
       "train_loss": [],
       "train_acc": [],
@@ -72,14 +132,14 @@ def train(model: torch.nn.Module,
   }
 
   for epoch in tqdm(range(epochs)):
-    
+
     train_loss, train_acc = train_step(
         model=model,
         dataloader=train_dataloader,
         loss_fn=loss_fn,
         optimizer=optimizer,
         device=device)
-    
+
     test_loss, test_acc = test_step(
         model=model,
         dataloader=test_dataloader,

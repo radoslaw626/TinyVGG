@@ -1,4 +1,8 @@
 
+"""
+Trains a PyTorch image classification model with simple transformer.
+"""
+
 
 import os
 import json
@@ -7,7 +11,7 @@ from torchvision import transforms
 import data_setup, engine, model_builder, utils
 from timeit import default_timer as timer
 
-NUM_EPOCHS = 50
+NUM_EPOCHS = 70
 BATCH_SIZE = 32
 HIDDEN_UNITS = 10
 LEARNING_RATE = 0.001
