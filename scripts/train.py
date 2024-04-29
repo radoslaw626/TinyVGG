@@ -126,4 +126,4 @@ print(f"[INFO] Total training time: {end_time-start_time:.3f} seconds")
 
 utils.save_model(model=model,
                  target_dir="models",
-                 model_name="augumented_data_tinyvgg_model" if TRANSFORM_TYPE == "augumented" else "simple_data_tinyvgg_model.pt")
+                 model_name="augumented_data_tinyvgg_model.pt" if TRANSFORM_TYPE == "augumented" else "simple_data_tinyvgg_model.pt")
